@@ -24,3 +24,9 @@ var result = game.evaluate(Colors.Red, 1);
 
 assert.equal(result, (24+23+22+21+20+19)/6);
 
+// Evaluate level 2
+
+var result = game.evaluate(Colors.Red, 2);
+
+assert.equal(result, (24+23+22+21+20+19)/6);
+
