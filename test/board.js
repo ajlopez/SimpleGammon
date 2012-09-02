@@ -20,6 +20,9 @@ for (var k=0; k <= 25; k++) {
     assert.equal(board.getPosition(Colors.Black, k), 0);
 }
 
+assert.equal(board.getDistance(Colors.Red), 0);
+assert.equal(board.getDistance(Colors.Black), 0);
+
 // Put red checker
 
 board.putChecker(Colors.Red, 1);
@@ -27,6 +30,9 @@ board.putChecker(Colors.Red, 1);
 assert.equal(board.countReds(), 1);
 assert.equal(board.getPosition(Colors.Red, 1), 1);
 assert.equal(board.countBlacks(), 0);
+
+assert.equal(board.getDistance(Colors.Red), 25);
+assert.equal(board.getDistance(Colors.Black), 0);
 
 // Put black checker
 
@@ -36,6 +42,21 @@ assert.equal(board.countReds(), 1);
 assert.equal(board.getPosition(Colors.Red, 1), 1);
 assert.equal(board.countBlacks(), 1);
 assert.equal(board.getPosition(Colors.Black, 1), 1);
+
+assert.equal(board.getDistance(Colors.Red), 25);
+assert.equal(board.getDistance(Colors.Black), 25);
+
+// Put second red checker
+
+board.putChecker(Colors.Red, 2);
+
+assert.equal(board.countReds(), 2);
+assert.equal(board.getPosition(Colors.Red, 1), 1);
+assert.equal(board.getPosition(Colors.Red, 2), 1);
+assert.equal(board.countBlacks(), 1);
+
+assert.equal(board.getDistance(Colors.Red), 49);
+assert.equal(board.getDistance(Colors.Black), 25);
 
 // Set initial position
 
@@ -66,3 +87,4 @@ for (k = 0; k < 26; k++) {
         assert.equal(board.getPosition(Colors.Red, k), 0);
     }
 }
+
