@@ -118,3 +118,10 @@ for (k = 0; k < 26; k++) {
     }
 }
 
+board.putChecker(Colors.Red, 2);
+cloned.putChecker(Colors.Black, 2);
+
+assert.equal(cloned.countReds(), 15);
+assert.equal(cloned.countBlacks(), 16);
+assert.equal(board.countReds(), 16);
+assert.equal(board.countBlacks(), 15);
