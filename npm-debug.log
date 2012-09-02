@@ -1,0 +1,41 @@
+info it worked if it ends with ok
+verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+verbose cli   'test' ]
+info using npm@1.1.21
+info using node@v0.6.18
+verbose C:\Program Files\nodejs\\node.exe node symlink
+verbose config file C:\Users\Administrator\.npmrc
+verbose config file C:\Program Files\nodejs\etc\npmrc
+verbose config file C:\Program Files\nodejs\node_modules\npm\npmrc
+verbose caching C:\Git\SimpleGammon\package.json
+verbose loadDefaults simplegammon@0.0.1alpha
+verbose run-script [ 'pretest', 'test', 'posttest' ]
+info pretest simplegammon@0.0.1alpha
+info test simplegammon@0.0.1alpha
+verbose unsafe-perm in lifecycle true
+silly exec cmd "/c" "node ./test.js"
+silly spawning [ 'cmd', [ '/c', 'node ./test.js' ], 'C:\\Git\\SimpleGammon' ]
+info simplegammon@0.0.1alpha Failed to exec test script
+ERR! simplegammon@0.0.1alpha test: `node ./test.js`
+ERR! `cmd "/c" "node ./test.js"` failed with 1
+ERR! 
+ERR! Failed at the simplegammon@0.0.1alpha test script.
+ERR! This is most likely a problem with the simplegammon package,
+ERR! not with npm itself.
+ERR! Tell the author that this fails on your system:
+ERR!     node ./test.js
+ERR! You can get their info via:
+ERR!     npm owner ls simplegammon
+ERR! There is likely additional logging output above.
+ERR! 
+ERR! System Windows_NT 6.0.6002
+ERR! command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "test"
+ERR! cwd C:\Git\SimpleGammon
+ERR! node -v v0.6.18
+ERR! npm -v 1.1.21
+ERR! code ELIFECYCLE
+ERR! message simplegammon@0.0.1alpha test: `node ./test.js`
+ERR! message `cmd "/c" "node ./test.js"` failed with 1
+ERR! errno {}
+verbose exit [ 1, true ]
