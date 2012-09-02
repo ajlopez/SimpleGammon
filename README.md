@@ -1,6 +1,6 @@
 # SimpleGammon
 
-Simple Gammon game model, board model, rules and evaluation.
+Simple Backgammon game model, board model, rules and evaluation.
 
 ## Installation
 
