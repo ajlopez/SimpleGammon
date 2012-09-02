@@ -26,6 +26,13 @@ var result = game.evaluate(Colors.Red, 1, allonedice);
 
 assert.equal(result, (24+23+22+21+20+19)/6);
 
+// Evaluate level 1 with all dices
+
+var result = game.evaluate(Colors.Red, 1);
+
+// TODO review result
+assert.equal(result, 18);
+
 // Evaluate level 2
 
 var result = game.evaluate(Colors.Red, 2, allonedice);
@@ -53,5 +60,5 @@ assert.equal(result, 0);
 board.putChecker(Colors.Black, 2);
 board.putChecker(Colors.Red, 2);
 
-result = game.evaluate(Colors.Red, 2);
+result = game.evaluate(Colors.Red, 2, allonedice);
 assert.ok(result < 0.1 && result > -0.1);
