@@ -88,3 +88,33 @@ for (k = 0; k < 26; k++) {
     }
 }
 
+// Clone board with initial position
+
+var cloned = board.clone();
+
+assert.equal(cloned.countReds(), 15);
+assert.equal(cloned.countBlacks(), 15);
+
+for (k = 0; k < 26; k++) {
+    if (k == 1) {
+        assert.equal(cloned.getPosition(Colors.Black, k), 2);
+        assert.equal(cloned.getPosition(Colors.Red, k), 2);
+    }
+    else if (k == 12) {
+        assert.equal(cloned.getPosition(Colors.Black, k), 5);
+        assert.equal(cloned.getPosition(Colors.Red, k), 5);
+    }
+    else if (k == 17) {
+        assert.equal(cloned.getPosition(Colors.Black, k), 3);
+        assert.equal(cloned.getPosition(Colors.Red, k), 3);
+    }
+    else if (k == 19) {
+        assert.equal(cloned.getPosition(Colors.Black, k), 5);
+        assert.equal(cloned.getPosition(Colors.Red, k), 5);
+    }
+    else {
+        assert.equal(cloned.getPosition(Colors.Black, k), 0);
+        assert.equal(cloned.getPosition(Colors.Red, k), 0);
+    }
+}
+
