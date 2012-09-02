@@ -10,13 +10,14 @@ Via npm on Node:
 npm install simplegammon
 ```
 
+
+## Usage
+
 Reference in your program:
 
 ```js
 var simplegammon = require('simplegammon');
 ```
-
-## Usage
 
 TBD
 
