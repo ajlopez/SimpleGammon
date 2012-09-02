@@ -68,3 +68,14 @@ board = game.getBoard();
 assert.equal(board.getPosition(Colors.Black, 24), 1);
 assert.equal(board.getPosition(Colors.Black, 23), 1);
 
+// Can play and play over one enemy checker
+
+assert.equal(game.canPlay(Colors.Red, 6, 4), true);
+assert.equal(game.canPlay(Colors.Red, 6, 5), true);
+
+game.play(Colors.Red, 6, 4);
+assert.equal(board.getPosition(Colors.Black, 24), 1);
+assert.equal(board.getPosition(Colors.Black, 23), 0);
+assert.equal(board.getPosition(Colors.Black, 25), 1);
+assert.equal(board.getPosition(Colors.Red, 2), 1);
+
