@@ -79,3 +79,19 @@ assert.equal(board.getPosition(Colors.Black, 23), 0);
 assert.equal(board.getPosition(Colors.Black, 25), 1);
 assert.equal(board.getPosition(Colors.Red, 2), 1);
 
+// Can play out of the board
+
+var newboard = new simplegammon.Board();
+newboard.putChecker(Colors.Red, 1);
+var newgame = new simplegammon.Game(newboard);
+newboard = newgame.getBoard();
+newgame.canPlay(Colors.Red, 1, 1);
+newgame.canPlay(Colors.Red, 1, 2);
+newgame.canPlay(Colors.Red, 1, 3);
+newgame.canPlay(Colors.Red, 1, 4);
+newgame.canPlay(Colors.Red, 1, 5);
+newgame.canPlay(Colors.Red, 1, 6);
+
+newgame.play(Colors.Red, 1, 5);
+assert.equal(newboard.getPosition(Colors.Red, 0), 1);
+
