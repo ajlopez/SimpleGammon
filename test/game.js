@@ -45,3 +45,26 @@ assert.equal(game.canPlay(Colors.Black, 24, 3), true);
 assert.equal(game.canPlay(Colors.Black, 24, 4), true);
 assert.equal(game.canPlay(Colors.Black, 24, 5), false);
 
+assert.equal(game.canPlay(Colors.Black, 23, 1), false);
+
+assert.equal(game.canPlay(Colors.Black, 13, 1), false);
+assert.equal(game.canPlay(Colors.Black, 13, 2), true);
+assert.equal(game.canPlay(Colors.Black, 13, 3), true);
+assert.equal(game.canPlay(Colors.Black, 13, 4), true);
+assert.equal(game.canPlay(Colors.Black, 13, 5), true);
+assert.equal(game.canPlay(Colors.Black, 13, 6), true);
+
+assert.equal(game.canPlay(Colors.Black, 6, 1), true);
+assert.equal(game.canPlay(Colors.Black, 6, 2), true);
+assert.equal(game.canPlay(Colors.Black, 6, 3), true);
+assert.equal(game.canPlay(Colors.Black, 6, 4), true);
+assert.equal(game.canPlay(Colors.Black, 6, 5), false);
+assert.equal(game.canPlay(Colors.Black, 6, 6), false);
+
+// Play
+
+game.play(Colors.Black, 24, 1);
+board = game.getBoard();
+assert.equal(board.getPosition(Colors.Black, 24), 1);
+assert.equal(board.getPosition(Colors.Black, 23), 1);
+
