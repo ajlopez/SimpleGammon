@@ -31,7 +31,7 @@ assert.equal(board.countReds(), 1);
 assert.equal(board.getPosition(Colors.Red, 1), 1);
 assert.equal(board.countBlacks(), 0);
 
-assert.equal(board.getDistance(Colors.Red), 25);
+assert.equal(board.getDistance(Colors.Red), 2);
 assert.equal(board.getDistance(Colors.Black), 0);
 
 // Put black checker
@@ -43,8 +43,8 @@ assert.equal(board.getPosition(Colors.Red, 1), 1);
 assert.equal(board.countBlacks(), 1);
 assert.equal(board.getPosition(Colors.Black, 1), 1);
 
-assert.equal(board.getDistance(Colors.Red), 25);
-assert.equal(board.getDistance(Colors.Black), 25);
+assert.equal(board.getDistance(Colors.Red), 2);
+assert.equal(board.getDistance(Colors.Black), 2);
 
 // Put second red checker
 
@@ -55,8 +55,8 @@ assert.equal(board.getPosition(Colors.Red, 1), 1);
 assert.equal(board.getPosition(Colors.Red, 2), 1);
 assert.equal(board.countBlacks(), 1);
 
-assert.equal(board.getDistance(Colors.Red), 49);
-assert.equal(board.getDistance(Colors.Black), 25);
+assert.equal(board.getDistance(Colors.Red), 5);
+assert.equal(board.getDistance(Colors.Black), 2);
 
 // Set initial position
 
@@ -66,19 +66,19 @@ assert.equal(board.countReds(), 15);
 assert.equal(board.countBlacks(), 15);
 
 for (k = 0; k < 26; k++) {
-    if (k == 1) {
+    if (k == 24) {
         assert.equal(board.getPosition(Colors.Black, k), 2);
         assert.equal(board.getPosition(Colors.Red, k), 2);
     }
-    else if (k == 12) {
+    else if (k == 13) {
         assert.equal(board.getPosition(Colors.Black, k), 5);
         assert.equal(board.getPosition(Colors.Red, k), 5);
     }
-    else if (k == 17) {
+    else if (k == 8) {
         assert.equal(board.getPosition(Colors.Black, k), 3);
         assert.equal(board.getPosition(Colors.Red, k), 3);
     }
-    else if (k == 19) {
+    else if (k == 6) {
         assert.equal(board.getPosition(Colors.Black, k), 5);
         assert.equal(board.getPosition(Colors.Red, k), 5);
     }
@@ -96,19 +96,19 @@ assert.equal(cloned.countReds(), 15);
 assert.equal(cloned.countBlacks(), 15);
 
 for (k = 0; k < 26; k++) {
-    if (k == 1) {
+    if (k == 24) {
         assert.equal(cloned.getPosition(Colors.Black, k), 2);
         assert.equal(cloned.getPosition(Colors.Red, k), 2);
     }
-    else if (k == 12) {
+    else if (k == 13) {
         assert.equal(cloned.getPosition(Colors.Black, k), 5);
         assert.equal(cloned.getPosition(Colors.Red, k), 5);
     }
-    else if (k == 17) {
+    else if (k == 8) {
         assert.equal(cloned.getPosition(Colors.Black, k), 3);
         assert.equal(cloned.getPosition(Colors.Red, k), 3);
     }
-    else if (k == 19) {
+    else if (k == 6) {
         assert.equal(cloned.getPosition(Colors.Black, k), 5);
         assert.equal(cloned.getPosition(Colors.Red, k), 5);
     }
@@ -125,3 +125,4 @@ assert.equal(cloned.countReds(), 15);
 assert.equal(cloned.countBlacks(), 16);
 assert.equal(board.countReds(), 16);
 assert.equal(board.countBlacks(), 15);
+
