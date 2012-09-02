@@ -30,3 +30,26 @@ var result = game.evaluate(Colors.Red, 2);
 
 assert.equal(result, (24+23+22+21+20+19)/6);
 
+// Put one black checker
+
+board.putChecker(Colors.Black, 24);
+
+// Evaluate level 1
+
+result = game.evaluate(Colors.Red, 1);
+
+assert.equal(result, (24-25+23-25+22-25+21-25+20-25+19-25)/6);
+
+// Evaluate level 2
+
+result = game.evaluate(Colors.Red, 2);
+
+assert.equal(result, 0);
+
+// One red, one black, ready to be hitted
+
+board.putChecker(Colors.Black, 2);
+board.putChecker(Colors.Red, 2);
+
+result = game.evaluate(Colors.Red, 2);
+assert.ok(result < 0.1 && result > -0.1);
