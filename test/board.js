@@ -1,128 +1,142 @@
 
-var simplegammon = require('../'),
-    assert = require('assert');
+var simplegammon = require('../');
 
 var Colors = simplegammon.Colors;
-    
-assert.ok(simplegammon.Board);
 
-// Empty Board
+exports['board exists'] = function (test) {    
+    test.ok(simplegammon.Board);
+};
 
-var board = new simplegammon.Board();
+exports['Empty Board'] = function (test) {
+    var board = new simplegammon.Board();
 
-assert.ok(board);
+    test.ok(board);
 
-assert.equal(board.countReds(), 0);
-assert.equal(board.countBlacks(), 0);
+    test.equal(board.countReds(), 0);
+    test.equal(board.countBlacks(), 0);
 
-for (var k=0; k <= 25; k++) {
-    assert.equal(board.getPosition(Colors.Red, k), 0);
-    assert.equal(board.getPosition(Colors.Black, k), 0);
+    for (var k=0; k <= 25; k++) {
+        test.equal(board.getPosition(Colors.Red, k), 0);
+        test.equal(board.getPosition(Colors.Black, k), 0);
+    }
+
+    test.equal(board.getDistance(Colors.Red), 0);
+    test.equal(board.getDistance(Colors.Black), 0);
+};
+
+exports['Put red checker'] = function (test) {
+    var board = new simplegammon.Board();
+
+    board.putChecker(Colors.Red, 1);
+
+    test.equal(board.countReds(), 1);
+    test.equal(board.getPosition(Colors.Red, 1), 1);
+    test.equal(board.countBlacks(), 0);
+
+    test.equal(board.getDistance(Colors.Red), 2);
+    test.equal(board.getDistance(Colors.Black), 0);
+};
+
+exports['Put black checker'] = function (test) {
+    var board = new simplegammon.Board();
+
+    board.putChecker(Colors.Red, 1);
+    board.putChecker(Colors.Black, 1);
+
+    test.equal(board.countReds(), 1);
+    test.equal(board.getPosition(Colors.Red, 1), 1);
+    test.equal(board.countBlacks(), 1);
+    test.equal(board.getPosition(Colors.Black, 1), 1);
+
+    test.equal(board.getDistance(Colors.Red), 2);
+    test.equal(board.getDistance(Colors.Black), 2);
+};
+
+exports['Put second red checker'] = function (test) {
+    var board = new simplegammon.Board();
+
+    board.putChecker(Colors.Red, 1);
+    board.putChecker(Colors.Black, 1);
+    board.putChecker(Colors.Red, 2);
+
+    test.equal(board.countReds(), 2);
+    test.equal(board.getPosition(Colors.Red, 1), 1);
+    test.equal(board.getPosition(Colors.Red, 2), 1);
+    test.equal(board.countBlacks(), 1);
+
+    test.equal(board.getDistance(Colors.Red), 5);
+    test.equal(board.getDistance(Colors.Black), 2);
 }
 
-assert.equal(board.getDistance(Colors.Red), 0);
-assert.equal(board.getDistance(Colors.Black), 0);
+exports['Set initial position'] = function (test) {
+    var board = new simplegammon.Board();
 
-// Put red checker
+    board.setInitialPosition();
 
-board.putChecker(Colors.Red, 1);
+    test.equal(board.countReds(), 15);
+    test.equal(board.countBlacks(), 15);
 
-assert.equal(board.countReds(), 1);
-assert.equal(board.getPosition(Colors.Red, 1), 1);
-assert.equal(board.countBlacks(), 0);
-
-assert.equal(board.getDistance(Colors.Red), 2);
-assert.equal(board.getDistance(Colors.Black), 0);
-
-// Put black checker
-
-board.putChecker(Colors.Black, 1);
-
-assert.equal(board.countReds(), 1);
-assert.equal(board.getPosition(Colors.Red, 1), 1);
-assert.equal(board.countBlacks(), 1);
-assert.equal(board.getPosition(Colors.Black, 1), 1);
-
-assert.equal(board.getDistance(Colors.Red), 2);
-assert.equal(board.getDistance(Colors.Black), 2);
-
-// Put second red checker
-
-board.putChecker(Colors.Red, 2);
-
-assert.equal(board.countReds(), 2);
-assert.equal(board.getPosition(Colors.Red, 1), 1);
-assert.equal(board.getPosition(Colors.Red, 2), 1);
-assert.equal(board.countBlacks(), 1);
-
-assert.equal(board.getDistance(Colors.Red), 5);
-assert.equal(board.getDistance(Colors.Black), 2);
-
-// Set initial position
-
-board.setInitialPosition();
-
-assert.equal(board.countReds(), 15);
-assert.equal(board.countBlacks(), 15);
-
-for (k = 0; k < 26; k++) {
-    if (k == 24) {
-        assert.equal(board.getPosition(Colors.Black, k), 2);
-        assert.equal(board.getPosition(Colors.Red, k), 2);
+    for (k = 0; k < 26; k++) {
+        if (k == 24) {
+            test.equal(board.getPosition(Colors.Black, k), 2);
+            test.equal(board.getPosition(Colors.Red, k), 2);
+        }
+        else if (k == 13) {
+            test.equal(board.getPosition(Colors.Black, k), 5);
+            test.equal(board.getPosition(Colors.Red, k), 5);
+        }
+        else if (k == 8) {
+            test.equal(board.getPosition(Colors.Black, k), 3);
+            test.equal(board.getPosition(Colors.Red, k), 3);
+        }
+        else if (k == 6) {
+            test.equal(board.getPosition(Colors.Black, k), 5);
+            test.equal(board.getPosition(Colors.Red, k), 5);
+        }
+        else {
+            test.equal(board.getPosition(Colors.Black, k), 0);
+            test.equal(board.getPosition(Colors.Red, k), 0);
+        }
     }
-    else if (k == 13) {
-        assert.equal(board.getPosition(Colors.Black, k), 5);
-        assert.equal(board.getPosition(Colors.Red, k), 5);
-    }
-    else if (k == 8) {
-        assert.equal(board.getPosition(Colors.Black, k), 3);
-        assert.equal(board.getPosition(Colors.Red, k), 3);
-    }
-    else if (k == 6) {
-        assert.equal(board.getPosition(Colors.Black, k), 5);
-        assert.equal(board.getPosition(Colors.Red, k), 5);
-    }
-    else {
-        assert.equal(board.getPosition(Colors.Black, k), 0);
-        assert.equal(board.getPosition(Colors.Red, k), 0);
-    }
-}
+};
 
-// Clone board with initial position
+exports['Clone board with initial position'] = function (test) {
+    var board = new simplegammon.Board();
 
-var cloned = board.clone();
+    board.setInitialPosition();
+    var cloned = board.clone();
 
-assert.equal(cloned.countReds(), 15);
-assert.equal(cloned.countBlacks(), 15);
+    test.equal(cloned.countReds(), 15);
+    test.equal(cloned.countBlacks(), 15);
 
-for (k = 0; k < 26; k++) {
-    if (k == 24) {
-        assert.equal(cloned.getPosition(Colors.Black, k), 2);
-        assert.equal(cloned.getPosition(Colors.Red, k), 2);
+    for (k = 0; k < 26; k++) {
+        if (k == 24) {
+            test.equal(cloned.getPosition(Colors.Black, k), 2);
+            test.equal(cloned.getPosition(Colors.Red, k), 2);
+        }
+        else if (k == 13) {
+            test.equal(cloned.getPosition(Colors.Black, k), 5);
+            test.equal(cloned.getPosition(Colors.Red, k), 5);
+        }
+        else if (k == 8) {
+            test.equal(cloned.getPosition(Colors.Black, k), 3);
+            test.equal(cloned.getPosition(Colors.Red, k), 3);
+        }
+        else if (k == 6) {
+            test.equal(cloned.getPosition(Colors.Black, k), 5);
+            test.equal(cloned.getPosition(Colors.Red, k), 5);
+        }
+        else {
+            test.equal(cloned.getPosition(Colors.Black, k), 0);
+            test.equal(cloned.getPosition(Colors.Red, k), 0);
+        }
     }
-    else if (k == 13) {
-        assert.equal(cloned.getPosition(Colors.Black, k), 5);
-        assert.equal(cloned.getPosition(Colors.Red, k), 5);
-    }
-    else if (k == 8) {
-        assert.equal(cloned.getPosition(Colors.Black, k), 3);
-        assert.equal(cloned.getPosition(Colors.Red, k), 3);
-    }
-    else if (k == 6) {
-        assert.equal(cloned.getPosition(Colors.Black, k), 5);
-        assert.equal(cloned.getPosition(Colors.Red, k), 5);
-    }
-    else {
-        assert.equal(cloned.getPosition(Colors.Black, k), 0);
-        assert.equal(cloned.getPosition(Colors.Red, k), 0);
-    }
-}
+    board.putChecker(Colors.Red, 2);
+    cloned.putChecker(Colors.Black, 2);
 
-board.putChecker(Colors.Red, 2);
-cloned.putChecker(Colors.Black, 2);
-
-assert.equal(cloned.countReds(), 15);
-assert.equal(cloned.countBlacks(), 16);
-assert.equal(board.countReds(), 16);
-assert.equal(board.countBlacks(), 15);
+    test.equal(cloned.countReds(), 15);
+    test.equal(cloned.countBlacks(), 16);
+    test.equal(board.countReds(), 16);
+    test.equal(board.countBlacks(), 15);
+};
 

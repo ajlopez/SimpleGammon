@@ -1,64 +1,86 @@
 
-var simplegammon = require('../'),
-    assert = require('assert');
+var simplegammon = require('../');
 
 var Colors = simplegammon.Colors;
+var allonedice = [[1], [2], [3], [4], [5], [6]];
 
 // Evaluate board with one red checker, level 0
 
-// Board with one red checker
+exports['Board with one red checker, evaluate level 0'] = function (test) {
+    var board = new simplegammon.Board();
+    board.putChecker(Colors.Red, 24);
+    var game = new simplegammon.Game(board);
 
-var board = new simplegammon.Board();
-board.putChecker(Colors.Red, 24);
-var game = new simplegammon.Game(board);
+    var result = game.evaluate(Colors.Red, 0, allonedice);
 
-var allonedice = [[1], [2], [3], [4], [5], [6]];
+    test.equal(result, 25);
+}
 
-// Evaluate level 0
+exports['Evaluate level 1'] = function (test) {
+    var board = new simplegammon.Board();
+    board.putChecker(Colors.Red, 24);
+    var game = new simplegammon.Game(board);
 
-var result = game.evaluate(Colors.Red, 0, allonedice);
+    var result = game.evaluate(Colors.Red, 1, allonedice);
 
-assert.equal(result, 25);
+    test.equal(result, (24+23+22+21+20+19)/6);
+}
 
-// Evaluate level 1
+exports['Evaluate level 1 with all dices'] = function (test) {
+    var board = new simplegammon.Board();
+    board.putChecker(Colors.Red, 24);
+    var game = new simplegammon.Game(board);
 
-var result = game.evaluate(Colors.Red, 1, allonedice);
+    var result = game.evaluate(Colors.Red, 1);
 
-assert.equal(result, (24+23+22+21+20+19)/6);
+    // TODO review result
+    test.equal(result, 18);
+}
 
-// Evaluate level 1 with all dices
+exports['Evaluate level 2'] = function (test) {
+    var board = new simplegammon.Board();
+    board.putChecker(Colors.Red, 24);
+    var game = new simplegammon.Game(board);
 
-var result = game.evaluate(Colors.Red, 1);
+    var result = game.evaluate(Colors.Red, 2, allonedice);
 
-// TODO review result
-assert.equal(result, 18);
+    test.equal(result, (24+23+22+21+20+19)/6);
+}
 
-// Evaluate level 2
+exports['Evaluate level 1 with one black checker'] = function (test) {
+    var board = new simplegammon.Board();
+    board.putChecker(Colors.Red, 24);
+    board.putChecker(Colors.Black, 24);
 
-var result = game.evaluate(Colors.Red, 2, allonedice);
+    var game = new simplegammon.Game(board);
 
-assert.equal(result, (24+23+22+21+20+19)/6);
+    result = game.evaluate(Colors.Red, 1, allonedice);
 
-// Put one black checker
+    test.equal(result, (24-25+23-25+22-25+21-25+20-25+19-25)/6);
+}
 
-board.putChecker(Colors.Black, 24);
+exports['Evaluate level 2 with one black checker'] = function (test) {
+    var board = new simplegammon.Board();
+    board.putChecker(Colors.Red, 24);
+    board.putChecker(Colors.Black, 24);
 
-// Evaluate level 1
+    var game = new simplegammon.Game(board);
 
-result = game.evaluate(Colors.Red, 1, allonedice);
+    result = game.evaluate(Colors.Red, 2, allonedice);
 
-assert.equal(result, (24-25+23-25+22-25+21-25+20-25+19-25)/6);
+    test.equal(result, 0);
+}
 
-// Evaluate level 2
+exports['One red, one black, ready to be hitted'] = function (test) {
+    var board = new simplegammon.Board();
+    board.putChecker(Colors.Red, 24);
+    board.putChecker(Colors.Black, 24);
+    board.putChecker(Colors.Black, 2);
+    board.putChecker(Colors.Red, 2);
 
-result = game.evaluate(Colors.Red, 2, allonedice);
+    var game = new simplegammon.Game(board);
 
-assert.equal(result, 0);
+    result = game.evaluate(Colors.Red, 2, allonedice);
+    test.ok(result < 0.1 && result > -0.1);
+}
 
-// One red, one black, ready to be hitted
-
-board.putChecker(Colors.Black, 2);
-board.putChecker(Colors.Red, 2);
-
-result = game.evaluate(Colors.Red, 2, allonedice);
-assert.ok(result < 0.1 && result > -0.1);

@@ -1,96 +1,119 @@
 
-var simplegammon = require('../'),
-    assert = require('assert');
+var simplegammon = require('../');
 
 var Colors = simplegammon.Colors;
-    
-assert.ok(simplegammon.Game);
 
-var game = new simplegammon.Game();
+exports['Game exists'] = function (test) {    
+    test.ok(simplegammon.Game);
+};
 
-assert.ok(game);
+exports['Create game'] = function (test) {
+    var game = new simplegammon.Game();
 
-// Get Board in Initial Position
-
-var board = game.getBoard();
-
-for (k = 0; k < 26; k++) {
-    if (k == 24) {
-        assert.equal(board.getPosition(Colors.Black, k), 2);
-        assert.equal(board.getPosition(Colors.Red, k), 2);
-    }
-    else if (k == 13) {
-        assert.equal(board.getPosition(Colors.Black, k), 5);
-        assert.equal(board.getPosition(Colors.Red, k), 5);
-    }
-    else if (k == 8) {
-        assert.equal(board.getPosition(Colors.Black, k), 3);
-        assert.equal(board.getPosition(Colors.Red, k), 3);
-    }
-    else if (k == 6) {
-        assert.equal(board.getPosition(Colors.Black, k), 5);
-        assert.equal(board.getPosition(Colors.Red, k), 5);
-    }
-    else {
-        assert.equal(board.getPosition(Colors.Black, k), 0);
-        assert.equal(board.getPosition(Colors.Red, k), 0);
-    }
+    test.ok(game);
 }
 
-// Can play 
+exports['Get Board in Initial Position'] = function (test) {
+    var game = new simplegammon.Game();
+    var board = game.getBoard();
 
-assert.equal(game.canPlay(Colors.Black, 24, 1), true);
-assert.equal(game.canPlay(Colors.Black, 24, 2), true);
-assert.equal(game.canPlay(Colors.Black, 24, 3), true);
-assert.equal(game.canPlay(Colors.Black, 24, 4), true);
-assert.equal(game.canPlay(Colors.Black, 24, 5), false);
+    for (k = 0; k < 26; k++) {
+        if (k == 24) {
+            test.equal(board.getPosition(Colors.Black, k), 2);
+            test.equal(board.getPosition(Colors.Red, k), 2);
+        }
+        else if (k == 13) {
+            test.equal(board.getPosition(Colors.Black, k), 5);
+            test.equal(board.getPosition(Colors.Red, k), 5);
+        }
+        else if (k == 8) {
+            test.equal(board.getPosition(Colors.Black, k), 3);
+            test.equal(board.getPosition(Colors.Red, k), 3);
+        }
+        else if (k == 6) {
+            test.equal(board.getPosition(Colors.Black, k), 5);
+            test.equal(board.getPosition(Colors.Red, k), 5);
+        }
+        else {
+            test.equal(board.getPosition(Colors.Black, k), 0);
+            test.equal(board.getPosition(Colors.Red, k), 0);
+        }
+    }
+};
 
-assert.equal(game.canPlay(Colors.Black, 23, 1), false);
+exports['Can play'] = function (test) {
+    var game = new simplegammon.Game();
+    var board = game.getBoard();
 
-assert.equal(game.canPlay(Colors.Black, 13, 1), false);
-assert.equal(game.canPlay(Colors.Black, 13, 2), true);
-assert.equal(game.canPlay(Colors.Black, 13, 3), true);
-assert.equal(game.canPlay(Colors.Black, 13, 4), true);
-assert.equal(game.canPlay(Colors.Black, 13, 5), true);
-assert.equal(game.canPlay(Colors.Black, 13, 6), true);
+    test.equal(game.canPlay(Colors.Black, 24, 1), true);
+    test.equal(game.canPlay(Colors.Black, 24, 2), true);
+    test.equal(game.canPlay(Colors.Black, 24, 3), true);
+    test.equal(game.canPlay(Colors.Black, 24, 4), true);
+    test.equal(game.canPlay(Colors.Black, 24, 5), false);
 
-assert.equal(game.canPlay(Colors.Black, 6, 1), true);
-assert.equal(game.canPlay(Colors.Black, 6, 2), true);
-assert.equal(game.canPlay(Colors.Black, 6, 3), true);
-assert.equal(game.canPlay(Colors.Black, 6, 4), true);
-assert.equal(game.canPlay(Colors.Black, 6, 5), false);
-assert.equal(game.canPlay(Colors.Black, 6, 6), false);
+    test.equal(game.canPlay(Colors.Black, 23, 1), false);
 
-// Play
+    test.equal(game.canPlay(Colors.Black, 13, 1), false);
+    test.equal(game.canPlay(Colors.Black, 13, 2), true);
+    test.equal(game.canPlay(Colors.Black, 13, 3), true);
+    test.equal(game.canPlay(Colors.Black, 13, 4), true);
+    test.equal(game.canPlay(Colors.Black, 13, 5), true);
+    test.equal(game.canPlay(Colors.Black, 13, 6), true);
 
-game.play(Colors.Black, 24, 1);
-board = game.getBoard();
-assert.equal(board.getPosition(Colors.Black, 24), 1);
-assert.equal(board.getPosition(Colors.Black, 23), 1);
+    test.equal(game.canPlay(Colors.Black, 6, 1), true);
+    test.equal(game.canPlay(Colors.Black, 6, 2), true);
+    test.equal(game.canPlay(Colors.Black, 6, 3), true);
+    test.equal(game.canPlay(Colors.Black, 6, 4), true);
+    test.equal(game.canPlay(Colors.Black, 6, 5), false);
+    test.equal(game.canPlay(Colors.Black, 6, 6), false);
+};
 
-// Can play and play over one enemy checker
+exports['Play'] = function (test) {
+    var game = new simplegammon.Game();
 
-assert.equal(game.canPlay(Colors.Red, 6, 4), true);
-assert.equal(game.canPlay(Colors.Red, 6, 5), true);
+    game.play(Colors.Black, 24, 1);
 
-game.play(Colors.Red, 6, 4);
-assert.equal(board.getPosition(Colors.Black, 24), 1);
-assert.equal(board.getPosition(Colors.Black, 23), 0);
-assert.equal(board.getPosition(Colors.Black, 25), 1); // removed checker
-assert.equal(board.getPosition(Colors.Red, 2), 1);
+    var board = game.getBoard();
 
-// Can play out of the board
+    test.equal(board.getPosition(Colors.Black, 24), 1);
+    test.equal(board.getPosition(Colors.Black, 23), 1);
+}
 
-var newboard = new simplegammon.Board();
-newboard.putChecker(Colors.Red, 1);
-var newgame = new simplegammon.Game(newboard);
-newgame.canPlay(Colors.Red, 1, 1);
-newgame.canPlay(Colors.Red, 1, 2);
-newgame.canPlay(Colors.Red, 1, 3);
-newgame.canPlay(Colors.Red, 1, 4);
-newgame.canPlay(Colors.Red, 1, 5);
-newgame.canPlay(Colors.Red, 1, 6);
+exports['Can play and play over one enemy checker'] = function (test) {
+    var game = new simplegammon.Game();
 
-newgame.play(Colors.Red, 1, 5);
-assert.equal(newboard.getPosition(Colors.Red, 0), 1);
+    game.play(Colors.Black, 24, 1);
+    
+    var board = game.getBoard();
+    
+    test.equal(board.getPosition(Colors.Black, 24), 1);
+    test.equal(board.getPosition(Colors.Black, 23), 1);
+
+    test.equal(game.canPlay(Colors.Red, 6, 4), true);
+    test.equal(game.canPlay(Colors.Red, 6, 5), true);
+
+    game.play(Colors.Red, 6, 4);
+    
+    board = game.getBoard();
+   
+    test.equal(board.getPosition(Colors.Black, 24), 1);
+    test.equal(board.getPosition(Colors.Black, 23), 0);
+    test.equal(board.getPosition(Colors.Black, 25), 1); // removed checker
+    test.equal(board.getPosition(Colors.Red, 2), 1);
+}
+
+exports['Can play out of the board'] = function (test) {
+    var newboard = new simplegammon.Board();
+    newboard.putChecker(Colors.Red, 1);
+    var newgame = new simplegammon.Game(newboard);
+    newgame.canPlay(Colors.Red, 1, 1);
+    newgame.canPlay(Colors.Red, 1, 2);
+    newgame.canPlay(Colors.Red, 1, 3);
+    newgame.canPlay(Colors.Red, 1, 4);
+    newgame.canPlay(Colors.Red, 1, 5);
+    newgame.canPlay(Colors.Red, 1, 6);
+
+    newgame.play(Colors.Red, 1, 5);
+    test.equal(newboard.getPosition(Colors.Red, 0), 1);
+}
 

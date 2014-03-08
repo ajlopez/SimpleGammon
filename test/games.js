@@ -1,41 +1,41 @@
 
-var simplegammon = require('../'),
-    assert = require('assert');
+var simplegammon = require('../');
 
 var Colors = simplegammon.Colors;
 
-// Board with one red checker
+exports['Board with one red checker'] = function (test) {
+    var board = new simplegammon.Board();
+    board.putChecker(Colors.Red, 24);
+    var game = new simplegammon.Game(board);
 
-var board = new simplegammon.Board();
-board.putChecker(Colors.Red, 24);
-var game = new simplegammon.Game(board);
+    var games = game.getGames(Colors.Red, [1]);
 
-var games = game.getGames(Colors.Red, [1]);
+    test.ok(games);
+    test.equal(Array.isArray(games), true);
+    test.equal(games.length, 1);
 
-assert.ok(games);
-assert.equal(Array.isArray(games), true);
-assert.equal(games.length, 1);
+    test.equal(games[0].getBoard().getPosition(Colors.Red, 23), 1);
 
-assert.equal(games[0].getBoard().getPosition(Colors.Red, 23), 1);
+    games = game.getGames(Colors.Red, [1, 1]);
 
-games = game.getGames(Colors.Red, [1, 1]);
+    test.ok(games);
+    test.equal(Array.isArray(games), true);
+    test.equal(games.length, 1);
 
-assert.ok(games);
-assert.equal(Array.isArray(games), true);
-assert.equal(games.length, 1);
+    test.equal(games[0].getBoard().getPosition(Colors.Red, 22), 1);
+}
 
-assert.equal(games[0].getBoard().getPosition(Colors.Red, 22), 1);
+exports['Board with initial position'] = function (test) {
+    var game = new simplegammon.Game();
 
-// Board with initial position
+    var games = game.getGames(Colors.Red, [1]);
+    test.ok(games);
+    test.equal(Array.isArray(games), true);
+    test.equal(games.length, 3);
 
-game = new simplegammon.Game();
+    games = game.getGames(Colors.Red, [2]);
+    test.ok(games);
+    test.equal(Array.isArray(games), true);
+    test.equal(games.length, 4);
+}
 
-games = game.getGames(Colors.Red, [1]);
-assert.ok(games);
-assert.equal(Array.isArray(games), true);
-assert.equal(games.length, 3);
-
-games = game.getGames(Colors.Red, [2]);
-assert.ok(games);
-assert.equal(Array.isArray(games), true);
-assert.equal(games.length, 4);
