@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>Backgammon</title>
+</head>
+<body>
+<h1>Backgammon</h1>
+
+<canvas id="canvas" width="900" height="500">
+</canvas>
+<script language="javascript">
+var canvas = document.getElementById("canvas");
+
+var width = canvas.width;
+var height = canvas.height;
+
+var context = canvas.getContext("2d");
+
+function drawZone(fromx, fromy, zonewidth, zoneheight) {
+    context.moveTo(fromx, fromy);
+    
+    context.beginPath();
+    context.lineTo(fromx + zonewidth, fromy);
+    context.lineTo(fromx + zonewidth, fromy + zoneheight);
+    context.lineTo(fromx, fromy + zoneheight);
+    context.lineTo(fromx, fromy);
+    context.closePath();
+    context.fillStyle = "#D9CA9F";
+    context.fill();
+    context.strokeStyle = "black";
+    context.stroke();
+    
+    var positionwidth = zonewidth / 6;
+    var positionheight = zoneheight / 2 - 5;
+    
+    for (var k = 0; k < 6; k++) {
+        var positionleft = fromx + k * positionwidth;
+        var positionright = positionleft + positionwidth - 1;
+
+        context.moveTo(positionleft, fromy);
+        
+        context.beginPath();
+        context.lineTo(positionright, fromy);
+        context.lineTo(positionleft + positionwidth / 2, fromy + positionheight);
+        context.lineTo(positionleft, fromy);
+        context.closePath();
+        
+        if (k % 2 == 1)
+            context.fillStyle = "#E4D8CC";
+        else
+            context.fillStyle = "#88301A";
+            
+        context.fill();
+        context.strokeStyle = "black";
+        context.stroke();
+
+        context.moveTo(positionleft, fromy + zoneheight);
+        
+        context.beginPath();
+        context.lineTo(positionright, fromy + zoneheight);
+        context.lineTo(positionleft + positionwidth / 2, fromy + zoneheight - positionheight);
+        context.lineTo(positionleft, fromy + zoneheight);
+        context.closePath();
+        
+        if (k % 2 == 0)
+            context.fillStyle = "#E4D8CC";
+        else
+            context.fillStyle = "#88301A";
+            
+        context.fill();
+        context.strokeStyle = "black";
+        context.stroke();
+    }
+}
+
+function drawBoard() {
+    var zonewidth = width / 2 - 10 - 50;
+    var zoneheight = height - 10;
+    
+    context.clearRect(0, 0, width, height);
+    drawZone(5, 5, zonewidth, zoneheight);
+    drawZone(5 + zonewidth + 5, 5, zonewidth, zoneheight);
+}
+
+drawBoard();
+
+</script>
