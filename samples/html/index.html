@@ -5,7 +5,7 @@
 <body>
 <h1>Backgammon</h1>
 
-<canvas id="canvas" width="900" height="500">
+<canvas id="canvas" width="600" height="500">
 </canvas>
 <script language="javascript">
 var canvas = document.getElementById("canvas");
@@ -30,7 +30,7 @@ function drawZone(fromx, fromy, zonewidth, zoneheight) {
     context.stroke();
     
     var positionwidth = zonewidth / 6;
-    var positionheight = zoneheight / 2 - 5;
+    var positionheight = zoneheight / 2 * 0.8;
     
     for (var k = 0; k < 6; k++) {
         var positionleft = fromx + k * positionwidth;
