@@ -1,6 +1,7 @@
 <html>
 <head>
 <title>Backgammon</title>
+<script src="../../lib/simplegammon.js" language="javascript"></script>
 </head>
 <body>
 <h1>Backgammon</h1>
@@ -8,6 +9,9 @@
 <canvas id="canvas" width="600" height="500">
 </canvas>
 <script language="javascript">
+
+var Colors = simplegammon.Colors;
+
 var canvas = document.getElementById("canvas");
 
 var width = canvas.width;
@@ -72,15 +76,73 @@ function drawZone(fromx, fromy, zonewidth, zoneheight) {
     }
 }
 
-function drawBoard() {
+function drawBoard(checkers) {
     var zonewidth = width / 2 - 10 - 50;
     var zoneheight = height - 10;
     
     context.clearRect(0, 0, width, height);
     drawZone(5, 5, zonewidth, zoneheight);
     drawZone(5 + zonewidth + 5, 5, zonewidth, zoneheight);
+
+    var positionwidth = zonewidth / 6;
+    var positionheight = zoneheight / 2 * 0.8;
+    var radius = positionheight / 12;
+
+    for (var color = Colors.Red; color <= Colors.Black; color++) {
+        if (color == Colors.Red)
+            context.fillStyle = "#C7B18A";
+        else
+            context.fillStyle = "#9A4F25";
+            
+        context.strokeStyle = "black";
+        for (var k in checkers[color]) {
+            if (!k)
+                continue;
+                
+            var ncheckers = checkers[color][k];
+            
+            if (!ncheckers)
+                continue;
+                
+            var nzone = (k > 6 && k <= 18) ? 1 : 0;
+            
+            if (k <= 12)
+                var ncell = 5 - ((k - 1) % 6);
+            else
+                var ncell = ((k - 1) % 6);
+                
+            var offset = radius;
+            
+            if (k > 12 && color == Colors.Red || k <= 12 && color == Colors.Black)
+                offset = -offset;
+                
+            var x = 5 + positionwidth / 2 + ncell * positionwidth;
+            
+            if (nzone == 0)
+                x += zonewidth + 5;
+                
+            if (k <= 12 && color == Colors.Red || k > 12 && color == Colors.Black)
+                y = 5;
+            else
+                y = zoneheight + 5;
+                
+            y += offset;
+                    
+            for (n = 0; n < ncheckers; n++) {
+                context.beginPath();
+                context.arc(x, y, radius, 0, Math.PI * 2, true);
+                context.closePath();
+                context.fill();
+                context.stroke();
+                y += offset * 2;
+            }
+        }
+    }
 }
 
-drawBoard();
+var game = new simplegammon.Game();
+var board = game.getBoard();
+
+drawBoard(board.getCheckers());
 
 </script>
