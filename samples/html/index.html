@@ -198,7 +198,7 @@ function play() {
     var better = null;
     
     games.forEach(function (gm) {
-        var value = gm.evaluate(enemy, 1);
+        var value = gm.evaluate(enemy, 2);
         
         if (better == null || value > bettervalue) {
             better = gm;
