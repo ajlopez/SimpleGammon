@@ -1,13 +1,42 @@
 <html>
 <head>
 <title>Backgammon</title>
+<script src="jquery.min.js" language="javascript"></script>
 <script src="../../lib/simplegammon.js" language="javascript"></script>
 </head>
 <body>
 <h1>Backgammon</h1>
 
+<div style="float:left">
 <canvas id="canvas" width="600" height="500">
 </canvas>
+</div>
+
+<div style="float:left">
+<select id="color">
+<option>Red</option>
+<option>Black</option>
+</select>
+<select id="dice1">
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+</select>
+<select id="dice2">
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+</select>
+<input type="button" value="Play" onclick="play();" />
+</div>
+
+
 <script language="javascript">
 
 var Colors = simplegammon.Colors;
@@ -144,5 +173,45 @@ var game = new simplegammon.Game();
 var board = game.getBoard();
 
 drawBoard(board.getCheckers());
+
+function play() {
+    var colorname = $("#color").val();
+    
+    var color;
+    var enemy;
+    
+    if (colorname == 'Red') {
+        color = Colors.Red;
+        enemy = Colors.Black;
+    }
+    else {
+        color = Colors.Black;
+        enemy = Colors.Red;
+    }
+        
+    var dice1 = parseInt($("#dice1").val());
+    var dice2 = parseInt($("#dice2").val());
+    
+    var games = game.getGames(color, [dice1, dice2]);
+    
+    var bettervalue = null;
+    var better = null;
+    
+    games.forEach(function (gm) {
+        var value = gm.evaluate(enemy, 1);
+        
+        if (better == null || value > bettervalue) {
+            better = gm;
+            bettervalue = value;
+        }
+    });
+    
+    if (better) {
+        game = better;
+        var board = game.getBoard();
+
+        drawBoard(board.getCheckers());
+    }
+}
 
 </script>
