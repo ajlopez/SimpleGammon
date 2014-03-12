@@ -1,0 +1,192 @@
+<html>
+<head>
+<title>Backgammon</title>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/jquery.min.js" language="javascript"></script>
+<script src="/simplegammon.js" language="javascript"></script>
+</head>
+<body>
+<h1>Backgammon</h1>
+
+<div style="float:left">
+<canvas id="canvas" width="600" height="500">
+</canvas>
+</div>
+
+<div style="float:left">
+<select id="color">
+<option>Red</option>
+<option>Black</option>
+</select>
+<select id="dice1">
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+</select>
+<select id="dice2">
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+</select>
+<input type="button" value="Play" onclick="play();" />
+</div>
+
+
+<script language="javascript">
+
+var Colors = simplegammon.Colors;
+
+var canvas = document.getElementById("canvas");
+
+var width = canvas.width;
+var height = canvas.height;
+
+var context = canvas.getContext("2d");
+
+function drawZone(fromx, fromy, zonewidth, zoneheight) {
+    context.moveTo(fromx, fromy);
+    
+    context.beginPath();
+    context.lineTo(fromx + zonewidth, fromy);
+    context.lineTo(fromx + zonewidth, fromy + zoneheight);
+    context.lineTo(fromx, fromy + zoneheight);
+    context.lineTo(fromx, fromy);
+    context.closePath();
+    context.fillStyle = "#D9CA9F";
+    context.fill();
+    context.strokeStyle = "black";
+    context.stroke();
+    
+    var positionwidth = zonewidth / 6;
+    var positionheight = zoneheight / 2 * 0.8;
+    
+    for (var k = 0; k < 6; k++) {
+        var positionleft = fromx + k * positionwidth;
+        var positionright = positionleft + positionwidth - 1;
+
+        context.moveTo(positionleft, fromy);
+        
+        context.beginPath();
+        context.lineTo(positionright, fromy);
+        context.lineTo(positionleft + positionwidth / 2, fromy + positionheight);
+        context.lineTo(positionleft, fromy);
+        context.closePath();
+        
+        if (k % 2 == 1)
+            context.fillStyle = "#E4D8CC";
+        else
+            context.fillStyle = "#88301A";
+            
+        context.fill();
+        context.strokeStyle = "black";
+        context.stroke();
+
+        context.moveTo(positionleft, fromy + zoneheight);
+        
+        context.beginPath();
+        context.lineTo(positionright, fromy + zoneheight);
+        context.lineTo(positionleft + positionwidth / 2, fromy + zoneheight - positionheight);
+        context.lineTo(positionleft, fromy + zoneheight);
+        context.closePath();
+        
+        if (k % 2 == 0)
+            context.fillStyle = "#E4D8CC";
+        else
+            context.fillStyle = "#88301A";
+            
+        context.fill();
+        context.strokeStyle = "black";
+        context.stroke();
+    }
+}
+
+function drawBoard(checkers) {
+    var zonewidth = width / 2 - 10 - 50;
+    var zoneheight = height - 10;
+    
+    context.clearRect(0, 0, width, height);
+    drawZone(5, 5, zonewidth, zoneheight);
+    drawZone(5 + zonewidth + 5, 5, zonewidth, zoneheight);
+
+    var positionwidth = zonewidth / 6;
+    var positionheight = zoneheight / 2 * 0.8;
+    var radius = positionheight / 12;
+
+    for (var color = Colors.Red; color <= Colors.Black; color++) {
+        if (color == Colors.Red)
+            context.fillStyle = "#C7B18A";
+        else
+            context.fillStyle = "#9A4F25";
+            
+        context.strokeStyle = "black";
+        for (var k in checkers[color]) {
+            if (!k)
+                continue;
+                
+            var ncheckers = checkers[color][k];
+            
+            if (!ncheckers)
+                continue;
+                
+            var nzone = (k > 6 && k <= 18) ? 1 : 0;
+            
+            if (k <= 12)
+                var ncell = 5 - ((k - 1) % 6);
+            else
+                var ncell = ((k - 1) % 6);
+                
+            var offset = radius;
+            
+            if (k > 12 && color == Colors.Red || k <= 12 && color == Colors.Black)
+                offset = -offset;
+                
+            var x = 5 + positionwidth / 2 + ncell * positionwidth;
+            
+            if (nzone == 0)
+                x += zonewidth + 5;
+                
+            if (k <= 12 && color == Colors.Red || k > 12 && color == Colors.Black)
+                y = 5;
+            else
+                y = zoneheight + 5;
+                
+            y += offset;
+                    
+            for (n = 0; n < ncheckers; n++) {
+                context.beginPath();
+                context.arc(x, y, radius, 0, Math.PI * 2, true);
+                context.closePath();
+                context.fill();
+                context.stroke();
+                y += offset * 2;
+            }
+        }
+    }
+}
+
+var game = new simplegammon.Game();
+var board = game.getBoard();
+
+drawBoard(board.getCheckers());
+
+function play() {
+    var data = game.getBoard().getCheckers();
+    socket.emit('newplay', data);
+}
+
+function newResult(data) {
+}
+
+var socket = io.connect('http://localhost:8080');
+socket.on('newresult', newResult);
+socket.on('connect', function () {
+    //socket.emit('newproblem', { width: 5, height: 4} );
+});
+
+</script>
