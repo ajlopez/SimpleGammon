@@ -176,9 +176,19 @@ var board = game.getBoard();
 drawBoard(board.getCheckers());
 
 function play() {
-    var data = {};
+    var colorname = $("#color").val();
+    
+    var color;
+    
+    if (colorname == 'Red')
+        color = Colors.Red;
+    else
+        color = Colors.Black;
+
+        var data = {};
     
     data.checkers = game.getBoard().getCheckers();
+    data.color = color;
 
     var dice1 = parseInt($("#dice1").val());
     var dice2 = parseInt($("#dice2").val());
@@ -197,12 +207,14 @@ function play() {
 }
 
 function newResult(data) {
+    var board = new simplegammon.Board(data[Colors.Red], data[Colors.Black]);
+    game = new simplegammon.Game(board);
+    drawBoard(game.getBoard().getCheckers());
 }
 
 var socket = io.connect('http://localhost:8080');
-socket.on('newresult', newResult);
-socket.on('connect', function () {
-    //socket.emit('newproblem', { width: 5, height: 4} );
+    socket.on('newgame', newResult);
+    socket.on('connect', function () {
 });
 
 </script>
