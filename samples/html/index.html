@@ -191,8 +191,16 @@ function play() {
         
     var dice1 = parseInt($("#dice1").val());
     var dice2 = parseInt($("#dice2").val());
+    var dices;
     
-    var games = game.getGames(color, [dice1, dice2]);
+    if (dice1 < dice2)
+        dices = [dice1, dice2];
+    else if (dice1 > dice2)
+        dices = [dice2, dice1];
+    else
+        dices = [dice1, dice2, dice1, dice2];
+    
+    var games = game.getGames(color, dices);
     
     var bettervalue = null;
     var better = null;
