@@ -71,6 +71,18 @@ exports['Evaluate level 2 with one black checker'] = function (test) {
     test.equal(result, 0);
 }
 
+exports['Evaluate level 2 with one black checker with ratio'] = function (test) {
+    var board = new simplegammon.Board();
+    board.putChecker(Colors.Red, 24);
+    board.putChecker(Colors.Black, 24);
+
+    var game = new simplegammon.Game(board);
+
+    result = game.evaluate(Colors.Red, 2, allonedice, { ratio: 0.1 });
+
+    test.ok(result < 10 && result > -10);
+}
+
 exports['One red, one black, ready to be hitted'] = function (test) {
     var board = new simplegammon.Board();
     board.putChecker(Colors.Red, 24);
